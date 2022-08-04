@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+
+@import "~bootstrap/scss/mixins/banner";
+
+@include bsBanner("");
+
+// scss-docs-start import-stack
+// Configuration
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+$body-bg: tint-color(black, 10%);
+$font-family-sans-serif: 'Space Mono', sans-serif;
+
+$theme-colors: (
+  "primary": white,
+  "danger": darken(red, 20%)
+);
+
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/utilities";
+
+// Layout & components
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/buttons";
+
+// Helpers
+@import "~bootstrap/scss/helpers";
+
+// Utilities
+@import "~bootstrap/scss/utilities/api";
+// scss-docs-end import-stack
+
+a {text-decoration: none;}
+
+header {
+  position: sticky;
+}
+
+#gfc-logo-shield {
+  height: 70px;
+}
+
+#gfc-logo {
+  height: 54px;
+  margin-left: 18px;
+  margin-bottom: 4px;
+}
+
+#app {
+  max-width: 1250px;
+}
+
+@include media-breakpoint-down(sm) {
+  header {
+    flex-flow: column;
+  }
+}
