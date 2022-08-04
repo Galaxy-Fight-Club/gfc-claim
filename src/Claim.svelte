@@ -6,6 +6,7 @@
 
     const proofUrl: string = import.meta.env.VITE_PROOF_URL;
 
+    let claimButtonText = 'Claim';
     let error: string = '';
 
     async function claim(address: string) {
@@ -21,11 +22,14 @@
 
             const contract = new Contract(import.meta.env.VITE_CONTRACT, ['function claim(uint256 totalBalance, bytes32[] calldata proof) external'], signer);
 
-            await contract.claim(proofData.totalBalance, proofData.proof);
+            const tx = await contract.claim(proofData.totalBalance, proofData.proof);
+            await tx.wait(1);
+
+            claimButtonText = 'Claimed GCOIN ('+tx.hash+')';
         } catch (e) {
             if (
                 (e.hasOwnProperty('message') && e.message.includes('User denied transaction signature')) ||
-                e.includes('User rejected the transaction')
+                e instanceof String && e.includes('User rejected the transaction')
             ) {
                 return;
             }
@@ -42,6 +46,6 @@
     {#if error !== ''}
         <button class="btn btn-outline-danger">{error}</button>
     {:else}
-        <button class="btn btn-outline-primary" on:click={claim(address)}>Claim</button>
+        <button class="btn btn-outline-primary" on:click={claim(address)}>{claimButtonText}</button>
     {/if}
 {/await}
