@@ -2,6 +2,7 @@
     import { ethers } from "ethers";
     import Web3Modal from "web3modal";
     import WalletConnectProvider from "@walletconnect/web3-provider";
+    import * as Sentry from "@sentry/browser";
 
     const web3Modal = new Web3Modal({
         cacheProvider: false,
@@ -34,6 +35,8 @@
 
         provider = new ethers.providers.Web3Provider(instance);
         signer = provider.getSigner();
+
+        Sentry.setUser({address: await signer.getAddress()});
     }
 </script>
 

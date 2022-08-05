@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Contract } from "ethers";
+    import * as Sentry from "@sentry/browser";
 
     export let provider;
     export let signer;
@@ -10,13 +11,19 @@
     let error: string = '';
 
     async function claim(address: string) {
+        if (claimButtonText !== 'Claim') {
+            return;
+        }
+
+        Sentry.setUser({address: await signer.getAddress()});
+
         try {
             const proofResponse = await fetch(proofUrl + address);
             const proofData = await proofResponse.json();
 
             if (proofData.hasOwnProperty('totalBalance') === false) {
                 error = 'Could not load claimable GCOIN';
-
+                Sentry.captureException('Proof was missing totalBalance and proof array');
                 return;
             }
 
@@ -34,6 +41,7 @@
                 return;
             }
 
+            Sentry.captureException(e);
             console.error(e);
             error = 'Could not load claimable GCOIN';
         }

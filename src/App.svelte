@@ -4,11 +4,14 @@ import Claim from "./Claim.svelte";
 import gfcLogo from "./assets/gfc_logo.svg";
 import gfcLogoShield from "./assets/gfc_logo_shield.svg";
 import githubLogo from "./assets/github_logo.png";
+import Sentry from "./Sentry.svelte";
 
 let provider;
 let signer;
 
 </script>
+
+<Sentry />
 
 <header class="d-flex mb-4 justify-content-between">
     <a href="https://galaxyfightclub.com" target="_blank">

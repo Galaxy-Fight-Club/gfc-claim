@@ -1,6 +1,7 @@
 import {defineConfig} from 'vite'
 import {svelte} from '@sveltejs/vite-plugin-svelte'
 import nodePolyfills from "rollup-plugin-polyfill-node"
+import { splitVendorChunkPlugin } from 'vite'
 import * as path from "path";
 
 const production = process.env.NODE_ENV === "production";
@@ -9,6 +10,7 @@ const production = process.env.NODE_ENV === "production";
 export default defineConfig({
     base: '',
     plugins: [
+        splitVendorChunkPlugin(),
         // ↓ Needed for development mode
         !production &&
         nodePolyfills({
