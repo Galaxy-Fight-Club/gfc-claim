@@ -22,15 +22,22 @@
 
     export let provider;
     export let signer;
+    
+    let connectButtonText = 'Connect';
 
     async function connect() {
         const instance = await web3Modal.connect();
 
         if (instance.chainId !== '0x89') {
-            await instance.request({
-                method: 'wallet_switchEthereumChain',
-                params: [{ chainId: '0x89' }]
-            });
+            try {
+                await instance.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: '0x89' }]
+                });
+            } catch (e) {
+                connectButtonText = 'Please switch to Polygon Mainnet, then connect again';
+                return;
+            }
         }
 
         provider = new ethers.providers.Web3Provider(instance);
@@ -43,5 +50,5 @@
 {#if signer !== undefined}
     <slot></slot>
 {:else}
-    <button class="btn btn-outline-primary" on:click={connect}>Connect</button>
+    <button class="btn btn-outline-primary" on:click={connect}>{connectButtonText}</button>
 {/if}
