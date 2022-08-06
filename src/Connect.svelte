@@ -26,7 +26,17 @@
     let connectButtonText = 'Connect';
 
     async function connect() {
-        const instance = await web3Modal.connect();
+        let instance;
+
+        try {
+            instance = await web3Modal.connect();
+        } catch (e) {
+            if (e instanceof String && e.includes('Modal closed by user')) {
+                return;
+            }
+
+            throw e;
+        }
 
         if (instance.chainId !== '0x89') {
             try {
